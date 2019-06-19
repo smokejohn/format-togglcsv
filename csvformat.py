@@ -1,13 +1,22 @@
+import os
 import math
 import csv
 import argparse
 
-parser = argparse.ArgumentParser(description='Convert toggl time HH:MM:SS to hour format.')
-parser.add_argument('path', metavar='P', type=str, help='Path to the input file')
-parser.add_argument('-o', help='name of the output file')
-args = parser.parse_args()
+def main():
+    parser = argparse.ArgumentParser(
+            description='Convert toggl time HH:MM:SS to hour decimal format.')
+    parser.add_argument('inputfile', type=str, help='Path to the input file (.csv)')
+    parser.add_argument('-o', help='name of the output file')
+    args = parser.parse_args()
+    if args.inputfile and os.path.exists(args.inputfile):
+        infile = args.inputfile
+        if args.o:
+            out = args.o
+            format_time(infile, name=out)
+        else:
+            format_time(infile)
 
-input = None
 
 def format_time(input, name='output.csv'):
     report = []
@@ -34,3 +43,6 @@ def format_time(input, name='output.csv'):
         writer = csv.writer(out)
         writer.writerows(output)
 
+
+if __name__ == "__main__":
+    main()
